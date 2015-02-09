@@ -28,7 +28,7 @@ function rum_post_cta_box( $content ) {
 
 
 			// only proceed if there is data in the meta field for storing the CTA data from the metabox
-			if ( $post_cta_id != '' ) {
+			if ( $post_cta_id != '' && $post_cta_id != '0' ) {
 				$rum_post_cta_box = rum_cta_box_html( $post_cta_id );
 				$content .= $rum_post_cta_box;	
 			}
@@ -86,6 +86,10 @@ function rum_cta_box_html( $post_cta_id ) {
 	}
 
 
+	// wrap rum-post-cta-text and rum-post-cta-button
+	$cta_html .= '<div class="rum-post-cta-meta">';
+
+
 	// display the cta text
 	$cta_html .= '  <div class="rum-post-cta-text">';
 	$cta_html .= '		<h2>' . $title . '</h2>';
@@ -98,8 +102,17 @@ function rum_cta_box_html( $post_cta_id ) {
 	$cta_html .= '	</div>';
 
 
+	// close the wrapper for rum-post-cta-text and rum-post-cta-button
+	$cta_html .= '</div>';
+
+
+
 	// CTA box div wrapper
 	$cta_html = '<div id="rum-post-cta-box" style="' . esc_attr( $box_style ) . '">' . $cta_html . '</div>';
+
+
+	// clear the float of the main container
+	$cta_html .= '<div class="rum-post-cta-clearfix"></div>';
 
 
 	return $cta_html;
@@ -126,9 +139,8 @@ function rum_cta_featured_image( $post_cta_id ) {
 	// if the featured image field is enabled, set the output string
 	if ( $featured_image == 1 ) {
 
-		//$size = 'thumbnail';
-		//$featured_image = get_the_post_thumbnail( $post_cta_id, $size );
-		$featured_image = get_the_post_thumbnail( $post_cta_id, array( 200, 175 ) );
+		$size = 'medium';
+		$featured_image = get_the_post_thumbnail( $post_cta_id, $size );
 	}
 
 	return $featured_image;
